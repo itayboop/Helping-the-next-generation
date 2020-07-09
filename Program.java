@@ -1,29 +1,24 @@
 public class Program {
-    ///this function is helping with the f1 function
     public static double getYahas(Floor floor) {
-        double yahas = 0;
-        double highestYahas = 0;
+        int bedsAmount = 0;
+        int windowsAmount = 0;
 
-        for(int i = 0; i < floor.getApartments().length; i++) {
-            for(int j = 0; j < floor.getApartments()[i].getRooms().length; i++) {
-                yahas = ((double)(floor.getApartments()[i].getRooms()[j].getWindows()) / floor.getApartments()[i].getRooms()[j].getBeds());
-                if(yahas > highestYahas) {
-                    highestYahas = yahas;
-                }
-
+        for(int i = 0; i < floor.getApartments().length && floor.getApartments()[i] != null; i++) {
+            for(int j = 0; j < floor.getApartments()[i].getRooms().length && floor.getApartments()[i].getRooms()[j] != null; j++) {
+                bedsAmount += floor.getApartments()[i].getRooms()[j].getBeds();
+                windowsAmount += floor.getApartments()[i].getRooms()[j].getWindows();
             }
         }
 
-        return highestYahas;
+        return bedsAmount / (double)windowsAmount;
     }
 
-
-    public static int f1(Building[] buildings) {
+    public static Floor f1(Building[] buildings) {
         Floor bestFloor = buildings[0].getFloors()[0];
         double bestYahas = getYahas(bestFloor);
 
         for(int i = 0; i < buildings.length; i++) {
-            for(int j = 0; i < buildings[i].getFloors().length; i++) {
+            for(int j = 0; j < buildings[i].getFloors().length && buildings[i].getFloors()[j] != null; j++) {
                 if(getYahas(buildings[i].getFloors()[j]) > bestYahas) {
                     bestFloor = buildings[i].getFloors()[j];
                     bestYahas = getYahas(buildings[i].getFloors()[j]);
@@ -31,9 +26,8 @@ public class Program {
             }
         }
 
-        return bestFloor.getFloorNum();
+        return bestFloor;
     }
-
 
     public static int roomAmount(Floor floor) {
         int roomCount = 0;
@@ -113,9 +107,9 @@ public class Program {
     public static int windowsAmount(Building building) {
         int windows = 0;
 
-        for (int i = 0; i < building.getFloors().length; i++) {
-            for (int j = 0; j < building.getFloors()[i].getApartments().length; j++) {
-                for (int k = 0; k < building.getFloors()[i].getApartments()[j].getRooms().length; k++) {
+        for (int i = 0; i < building.getFloors().length && building.getFloors()[i] != null; i++) {
+            for (int j = 0; j < building.getFloors()[i].getApartments().length && building.getFloors()[i].getApartments()[j] != null; j++) {
+                for (int k = 0; k < building.getFloors()[i].getApartments()[j].getRooms().length && building.getFloors()[i].getApartments()[j].getRooms()[k] != null; k++) {
                     windows += building.getFloors()[i].getApartments()[j].getRooms()[k].getWindows();
                     }
                 }
@@ -128,9 +122,9 @@ public class Program {
     public static int roomAmountBuilding(Building building) {
         int roomAmount = 0;
 
-        for (int i = 0; i < building.getFloors().length; i++) {
-            for (int j = 0; j < building.getFloors()[i].getApartments().length; j++) {
-                for (int k = 0; k < building.getFloors()[i].getApartments()[j].getRooms().length; k++) {
+        for (int i = 0; i < building.getFloors().length && building.getFloors()[i] != null; i++) {
+            for (int j = 0; j < building.getFloors()[i].getApartments().length && building.getFloors()[i].getApartments()[j] != null; j++) {
+                for (int k = 0; k < building.getFloors()[i].getApartments()[j].getRooms().length && building.getFloors()[i].getApartments()[j].getRooms()[k] != null; k++) {
                     roomAmount++;
                 }
             }
@@ -148,8 +142,8 @@ public class Program {
     public static String findLongestOwner(Building building) {
         String longestOwner = ""; //see comment below
 
-        for(int i = 0; i < building.getFloors().length; i++) {
-            for(int j = 0; j < building.getFloors()[i].getApartments().length; i++) {
+        for(int i = 0; i < building.getFloors().length && building.getFloors()[i] != null; i++) {
+            for(int j = 0; j < building.getFloors()[i].getApartments().length && building.getFloors()[i].getApartments()[j] != null; i++) {
                 if(longestOwner.length() < building.getFloors()[i].getApartments()[j].getOwner().length()) {
                     longestOwner = building.getFloors()[i].getApartments()[j].getOwner();
                 }
@@ -176,8 +170,8 @@ public class Program {
         int apartmentAmount = 0;
 
         for(int i = 0; i < buildings.length; i++) {
-            for(int j = 0; j < buildings[i].getFloors().length; j++) {
-                for(int k = 0; k < buildings[i].getFloors()[j].getApartments().length; k++) {
+            for(int j = 0; j < buildings[i].getFloors().length && buildings[i].getFloors()[j] != null; j++) {
+                for(int k = 0; k < buildings[i].getFloors()[j].getApartments().length && buildings[i].getFloors()[j].getApartments()[k] != null; k++) {
                     apartmentAmount++;
                 }
             }
@@ -192,7 +186,7 @@ public class Program {
         int ownersLengthSum = 0;
 
         for(int i = 0; i < building.getFloors().length; i++) {
-            for(int j = 0; j < building.getFloors()[i].getApartments().length; j++) {
+            for(int j = 0; j < building.getFloors()[i].getApartments().length && building.getFloors()[i].getApartments()[j] != null; j++) {
                 ownersLengthSum += building.getFloors()[i].getApartments()[j].getOwner().length();
             }
         }
